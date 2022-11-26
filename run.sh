@@ -10,6 +10,7 @@
 #SBATCH -o ./report/output.%a.out # STDOUT
 
 module add python/3.7.9
+pip install timebudget
 
 python3 run_paths_pool.py
 
