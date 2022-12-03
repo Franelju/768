@@ -227,6 +227,6 @@ for k in range(0, len(result)):
     final = pd.concat([final, df])
 
 # ---- save data ------
-
-final.to_csv(savename)
+savefolder = "data/" + savename
+final.to_csv(savefolder)
 print("Simulation finished")

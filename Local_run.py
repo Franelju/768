@@ -4,8 +4,10 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import scipy.integrate
 from scipy.integrate import simps
+from aux_funs import mkdir
 import pandas as pd
 import os
+
 
 # Animation imports
 import imageio as iio
@@ -142,9 +144,9 @@ def combine(U0, V0, tstart, tend, tstep, mu, phi, nu, eps, seed):
 
 
 # %%#%% Parameters
-mu = 5  # 0.01
+mu = 30  # 0.01
 phi = 1
-nu = 5  # 1147.6
+nu = 0.01  # 1147.6
 eps = 0.75
 tstart = 0
 tend = 1  # normally this is 30 #1000
@@ -172,7 +174,7 @@ plt.show()
 
 # %%
 
-particles = 10
+particles = 9
 Y = np.zeros((Nt, 2, particles))
 for i in np.arange(particles):
     data = combine(U0, V0, tstart, tend, Nt, mu, phi, nu, eps, seed)
@@ -201,7 +203,7 @@ xmax, xmin, ymax, ymin = (
     Y[:, 1, :].max(),
     Y[:, 1, :].min(),
 )
-scale_factor = 1.25
+scale_factor = 1.05
 xmax, xmin, ymax, ymin = (
     xmax * scale_factor,
     xmin * scale_factor,
@@ -214,7 +216,7 @@ plt.grid()
 plt.show()
 # %% Animation
 print("Processing")
-fig = plt.figure()
+fig = plt.figure(dpi=300)
 ax = fig.add_subplot(111)
 frames = []
 title = "Swimmers with $\\mu$={:.0e} and $\\nu$={:.0e}".format(mu, nu)
@@ -233,16 +235,15 @@ for t in range(Nt):
     frames.append(image)
     ax.cla()
 # %% Save video
-savename = "anim"
-iio.mimsave(savename + ".gif", frames, fps=1000)
-mp.VideoFileClip(savename + ".gif").write_videofile(
-    savename + ".mp4", verbose=False, logger=None
-)
-os.remove(savename + ".gif")
-print("Video done")
-print("Videos done")
-
-# %%
-iio.imwrite("cockatoo_gray.mp4", np.round(np.array(frames)).astype(np.uint8), fps=36)
+savename = "mu=" + str(mu) + "_nu=" + str(nu) + ".csv"
+print("Savename is " + savename)
+mkdir("animation")
+savefolder = "animation/" + savename
+iio.mimwrite(savefolder + ".mp4", frames, format="FFMPEG", fps=120)
+# mp.VideoFileClip(savename + ".gif").write_videofile(
+#     savename + ".mp4", verbose=False, logger=None
+# )
+# os.remove(savename + ".gif")
+print(savename + "video done")
 
 # %%
