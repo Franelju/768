@@ -144,9 +144,9 @@ def combine(U0, V0, tstart, tend, tstep, mu, phi, nu, eps, seed):
 
 
 # %%#%% Parameters
-mu = 30  # 0.01
+mu = 1000  # 0.01
 phi = 1
-nu = 0.01  # 1147.6
+nu = 1  # 1147.6
 eps = 0.75
 tstart = 0
 tend = 1  # normally this is 30 #1000
@@ -235,7 +235,7 @@ for t in range(Nt):
     frames.append(image)
     ax.cla()
 # %% Save video
-savename = "mu=" + str(mu) + "_nu=" + str(nu) + ".csv"
+savename = "mu=" + str(mu) + "_nu=" + str(nu)
 print("Savename is " + savename)
 mkdir("animation")
 savefolder = "animation/" + savename
